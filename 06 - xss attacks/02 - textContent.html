@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>textContent</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			div {
+				background-color: #f7f7f7;
+				margin: 0 0 1em;
+				padding: 0.5em 1em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<!-- Scripts -->
+		<script>
+			var div = document.querySelector('#app');
+
+			// Renders a string with escaped characters
+			// This would show up in the DOM as a string--<img src=x onerror="alert('XSS Attack')">--instead of as an image element
+			div.textContent = '<img src=x onerror="alert(\'XSS Attack\')">';
+		</script>
+	</body>
+</html>

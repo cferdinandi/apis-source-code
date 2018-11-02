@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>serialize()</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			/**
+			 * Add box sizing to everything
+			 * @link http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+			 */
+			*,
+			*:before,
+			*:after {
+				box-sizing: border-box;
+			}
+
+			label,
+			input:not([type="checkbox"]):not([type="radio"]),
+			select,
+			textarea {
+				display: block;
+				width: 100%;
+			}
+
+			input:not([type="checkbox"]):not([type="radio"]),
+			select,
+			textarea {
+				margin-bottom: 1.5em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<h1>Monsters, Inc. Job Application</h1>
+
+		<form id="my-form">
+
+			<label for="name">Name</label>
+			<input type="text" name="name" id="name" value="Mike Wazowski">
+
+			<label for="address">Address</label>
+			<input type="text" name="address" id="address" value="123 Scare Avenue, Monstropolis">
+
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email" value="mikew@monstersinc.com">
+
+			<label for="hear-about-us">How did you hear about us?</label>
+			<select name="hear-about-us" id="hear-about-us">
+				<option value=""></option>
+				<option value="google">Google</option>
+				<option value="referral">Referred by a Friend</option>
+				<option value="tv" selected>A TV Ad</option>
+				<option value="radio">A Radio Ad</option>
+			</select>
+
+		  	<label for="hear-about-us-multi">How did you hear about us?</label>
+			<select name="hear-about-us-multi" id="hear-about-us-multi" multiple>
+				<option value=""></option>
+				<option value="google">Google</option>
+				<option value="referral" selected>Referred by a Friend</option>
+				<option value="tv" selected>A TV Ad</option>
+				<option value="radio">A Radio Ad</option>
+			</select>
+
+			<label id="more">Additional thoughts?</label>
+			<textarea name="more" id="more">Laughter produces more energy than screams!</textarea>
+
+			<p><strong>Do you agree to our terms of service?</strong></p>
+			<label class="label-plain">
+				<input type="radio" name="tos" value="yes" checked>
+				Yes
+			</label>
+			<label class="label-plain">
+				<input type="radio" name="tos" value="no">
+				No
+			</label>
+
+			<p><strong>Pick your favorite university.</strong></p>
+
+		  <label class="label-plain">
+				<input type="checkbox" name="scare-tech">
+				Scare Tech
+			</label>
+
+			<label class="label-plain">
+				<input type="checkbox" name="mu" checked>
+				Monster University
+			</label>
+
+			<p><button type="submit">Submit</button></p>
+
+		</form>
+
+
+		<script>
+			/*!
+			 * Serialize all form data into a query string
+			 * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+			 * @param  {Node}   form The form to serialize
+			 * @return {String}      The serialized form data
+			 */
+			var serialize = function (form) {
+
+				// Setup our serialized data
+				var serialized = [];
+
+				// Loop through each field in the form
+				for (var i = 0; i < form.elements.length; i++) {
+
+					var field = form.elements[i];
+
+					// Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
+					if (!field.name || field.disabled || field.type === 'file' || field.type === 'reset' || field.type === 'submit' || field.type === 'button') continue;
+
+					// If a multi-select, get all selections
+					if (field.type === 'select-multiple') {
+						for (var n = 0; n < field.options.length; n++) {
+							if (!field.options[n].selected) continue;
+							serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.options[n].value));
+						}
+					}
+
+					// Convert field data to a query string
+					else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
+						serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+					}
+				}
+
+				return serialized.join('&');
+
+			};
+
+			// Create the serialized string
+			var form = document.querySelector('#my-form');
+			var formData = serialize(form);
+
+			// Logs something like this:
+			// name=Mike%20Wazowski&address=123%20Scare%20Avenue%2C%20Monstropolis&email=mikew%40monstersinc.com
+			console.log(formData);
+		</script>
+	</body>
+</html>

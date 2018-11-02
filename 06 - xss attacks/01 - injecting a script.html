@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Injecting a Script</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			div {
+				background-color: #f7f7f7;
+				margin: 0 0 1em;
+				padding: 0.5em 1em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<!-- Scripts -->
+		<script>
+
+			// Add "Hello, world!"
+			var div = document.querySelector('#app');
+			div.innerHTML = '<h1>Hello, world!</h1>';
+
+			// This won't execute
+			div.innerHTML += '<script>alert("XSS Attack");<\/script>';
+
+			// This WILL run
+			div.innerHTML += '<script deferred>alert("Another XSS Attack");<\/script>';
+
+			// This will, too
+			div.innerHTML += '<img src=x onerror="alert(\'One more XSS Attack\')">';
+		</script>
+	</body>
+</html>

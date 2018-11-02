@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>atomic.js</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			/**
+			 * Add box sizing to everything
+			 * @link http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+			 */
+			*,
+			*:before,
+			*:after {
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+		<script src="https://cdn.jsdelivr.net/gh/cferdinandi/atomic@4.2.1/dist/atomic.polyfills.min.js"></script>
+		<script>
+			// A basic GET request
+			atomic('https://jsonplaceholder.typicode.com/posts')
+				.then(function (response) {
+					console.log('success!');
+					console.log(response.data); // xhr.responseText
+					console.log(response.xhr);  // full response
+				})
+				.catch(function (error) {
+					console.log('failure...');
+					console.log(error.status); // xhr.status
+					console.log(error.statusText); // xhr.statusText
+				});
+		</script>
+	</body>
+</html>

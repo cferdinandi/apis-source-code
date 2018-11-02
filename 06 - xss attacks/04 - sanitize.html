@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Sanitize</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			div {
+				background-color: #f7f7f7;
+				margin: 0 0 1em;
+				padding: 0.5em 1em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+		<!-- Scripts -->
+		<script>
+			/*!
+			 * Sanitize and encode all HTML in a user-submitted string
+			 * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+			 * @param  {String} str  The user-submitted string
+			 * @return {String} str  The sanitized string
+			 */
+			var sanitizeHTML = function (str) {
+				var temp = document.createElement('div');
+				temp.textContent = str;
+				return temp.innerHTML;
+			};
+
+			var div = document.querySelector('#app');
+
+			// Renders <h1>&lt;img src=x onerror="alert('XSS Attack')"&gt;</h1>
+			div.innerHTML = '<h1>' + sanitizeHTML('<img src=x onerror="alert(\'XSS Attack\')">') + '</h1>';
+		</script>
+	</body>
+</html>
