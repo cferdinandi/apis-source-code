@@ -43,6 +43,7 @@
 				// Process our return data
 				if (xhr.status >= 200 && xhr.status < 300) {
 					// Runs when the request is successful
+					// console.log(xhr.responseText);
 					console.log(JSON.parse(xhr.responseText));
 				} else {
 					// Runs when it's not
