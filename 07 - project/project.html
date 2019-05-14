@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Project Template</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			/**
+			 * Add box sizing to everything
+			 * @link http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+			 */
+			*,
+			*:before,
+			*:after {
+				box-sizing: border-box;
+			}
+
+			.skwak {
+				border-top: 1px solid #e5e5e5;
+				padding: 1.5em 0;
+			}
+
+			.skwak:first-child {
+				border-top: 0;
+			}
+
+			.skwak-content {
+				font-size: 1.1875em;
+				margin-top: 0.5em;
+			}
+
+			.skwak-date {
+				color: #808080;
+				text-decoration: none;
+			}
+
+			.skwak-date:active,
+			.skwak-date:hover {
+				color: #0088cc;
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<p>Loading the latest skwaks...</p>
+		</div>
+
+
+		<script>
+			// Get the content container
+			var app = document.querySelector('#app');
+
+			/*!
+			 * Sanitize and encode all HTML in a user-submitted string
+			 * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
+			 * @param  {String} str  The user-submitted string
+			 * @return {String} str  The sanitized string
+			 */
+			var sanitizeHTML = function (str) {
+				var temp = document.createElement('div');
+				temp.textContent = str;
+				return temp.innerHTML;
+			};
+
+			// Show a message if there are no skwaks
+			var renderNoSkwaks = function () {
+				app.innerHTML = '<p>Sorry matey! No skwaks at this time. Arr...</p>';
+			};
+
+			// Render skwaks into the DOM
+			var renderSkwaks = function (data) {
+
+				// Make sure there are skwaks to render
+				if (data.skwaks.length < 1) {
+					renderNoSkwaks();
+				}
+
+				// Render the user's skwaks
+				app.innerHTML =
+					'<h1>' + sanitizeHTML(data.username) + '\'s skwaks</h1>' +
+					'<div class="skwaks">' +
+						data.skwaks.map(function (skwak) {
+							var html =
+								'<article class="skwak">' +
+									'<a class="skwak-date" href="' + sanitizeHTML(skwak.link) + '">' +
+										sanitizeHTML(skwak.date) +
+									'</a>' +
+									'<div class="skwak-content">' +
+										sanitizeHTML(skwak.content) +
+									'</div>' +
+								'</article>';
+							return html;
+						}).join('') +
+					'</div>' +
+					'<p><em>Powered by ' + sanitizeHTML(data.service) + '.</em></p>';
+
+				console.log(data);
+
+			};
+
+			// Make an XHR request to the API endpoint
+			var getSkwaks = function () {
+
+				// Set up our HTTP request
+				var xhr = new XMLHttpRequest();
+
+				// Setup our listener to process compeleted requests
+				xhr.onreadystatechange = function () {
+
+					// Only run if the request is complete
+					if (xhr.readyState !== 4) return;
+
+					// Process our return data
+					if (xhr.status >= 200 && xhr.status < 300) {
+						// What do when the request is successful
+						renderSkwaks(JSON.parse(xhr.responseText));
+					} else {
+						// What do when the request fails
+						renderNoSkwaks();
+					}
+
+				};
+
+				// Create and send a GET request
+				// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+				// The second argument is the endpoint URL
+				xhr.open('GET', 'https://vanillajsguides.com/api/skwak.json');
+				xhr.send();
+
+			};
+
+			// Get API data
+			getSkwaks();
+		</script>
+	</body>
+</html>
