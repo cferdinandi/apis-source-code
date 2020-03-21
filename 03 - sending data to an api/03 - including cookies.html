@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>HTTP Method</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+
+		<script>
+			fetch('https://jsonplaceholder.typicode.com/posts', {
+				method: 'POST',
+				credentials: 'include'
+			}).then(function (response) {
+				if (response.ok) {
+					return response.json();
+				}
+				return Promise.reject(response);
+			}).then(function (data) {
+				console.log(data);
+			}).catch(function (error) {
+				console.warn('Something went wrong.', error);
+			});
+		</script>
+	</body>
+</html>

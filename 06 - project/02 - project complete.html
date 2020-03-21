@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Project Template</title>
+		<title>Project Complete</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Styles -->
@@ -60,7 +60,7 @@
 
 
 		<script>
-			// Get the content container
+			// Get the #app element
 			var app = document.querySelector('#app');
 
 			/*!
@@ -75,75 +75,54 @@
 				return temp.innerHTML;
 			};
 
-			// Show a message if there are no skwaks
-			var renderNoSkwaks = function () {
+			// Update the DOM when the API is down
+			var renderNoSwaks = function () {
 				app.innerHTML = '<p>Sorry matey! No skwaks at this time. Arr...</p>';
 			};
 
-			// Render skwaks into the DOM
+			// Render Skwak data in the DOM
 			var renderSkwaks = function (data) {
 
-				// Make sure there are skwaks to render
+				// If there's no skwaks to render, display a message
 				if (data.skwaks.length < 1) {
-					renderNoSkwaks();
+					renderNoSwaks();
+					return;
 				}
 
-				// Render the user's skwaks
+				// Otherwise, update the DOM
 				app.innerHTML =
 					'<h1>' + sanitizeHTML(data.username) + '\'s skwaks</h1>' +
 					'<div class="skwaks">' +
 						data.skwaks.map(function (skwak) {
 							var html =
 								'<article class="skwak">' +
-									'<a class="skwak-date" href="' + sanitizeHTML(skwak.link) + '">' +
-										sanitizeHTML(skwak.date) +
-									'</a>' +
-									'<div class="skwak-content">' +
-										sanitizeHTML(skwak.content) +
-									'</div>' +
+									'<a class="skwak-date" href="' + sanitizeHTML(skwak.url) + '">' + sanitizeHTML(skwak.date) + '</a>' +
+									'<div class="skwak-content">' + sanitizeHTML(skwak.content) + '</div>' +
 								'</article>';
 							return html;
 						}).join('') +
 					'</div>' +
-					'<p><em>Powered by ' + sanitizeHTML(data.service) + '.</em></p>';
-
-				console.log(data);
+					'<p><em>Powered by ' + sanitizeHTML(data.service) + '</em></p>';
 
 			};
 
-			// Make an XHR request to the API endpoint
-			var getSkwaks = function () {
+			// Get the API data
+			fetch('https://vanillajsguides.com/api/skwak.json').then(function (response) {
+				if (response.ok) {
+					return response.json();
+				}
+				return Promise.reject(response);
+			}).then(function (data) {
+				renderSkwaks(data);
+			}).catch(function (error) {
 
-				// Set up our HTTP request
-				var xhr = new XMLHttpRequest();
+				// If there's an error, log it
+				console.warn(error);
 
-				// Setup our listener to process compeleted requests
-				xhr.onreadystatechange = function () {
+				// Then display a message in the UI
+				renderNoSwaks();
 
-					// Only run if the request is complete
-					if (xhr.readyState !== 4) return;
-
-					// Process our return data
-					if (xhr.status >= 200 && xhr.status < 300) {
-						// What do when the request is successful
-						renderSkwaks(JSON.parse(xhr.responseText));
-					} else {
-						// What do when the request fails
-						renderNoSkwaks();
-					}
-
-				};
-
-				// Create and send a GET request
-				// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
-				// The second argument is the endpoint URL
-				xhr.open('GET', 'https://vanillajsguides.com/api/skwak.json');
-				xhr.send();
-
-			};
-
-			// Get API data
-			getSkwaks();
+			});
 		</script>
 	</body>
 </html>

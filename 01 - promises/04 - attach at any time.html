@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Attach at any time</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+
+		<script>
+			// Create a Promise that resolves immediately
+			var question = new Promise(function (resolve, reject) {
+				resolve(42);
+			});
+
+			// Attach a callback 5 seconds after it's resolved
+			setTimeout(function () {
+
+				// This will run as soon a the timeout completes, because the Promise has already resolved
+				question.then(function (answer) {
+					console.log(answer);
+				});
+
+			}, 5000);
+		</script>
+	</body>
+</html>

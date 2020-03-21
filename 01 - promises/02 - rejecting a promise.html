@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Rejecting a Promise</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Styles -->
+		<style type="text/css">
+			body {
+				max-width: 40em;
+				width: 88%;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+
+
+
+		<script>
+			// Create a Promise object
+			var sayHello = new Promise(function (resolve, reject) {
+
+				reject('Unable to say hi.');
+
+				// In 5 seconds, resolve the Promise.
+				// Pass along "Hi, universe!" to any callback methods
+				setTimeout(function () {
+					resolve('Hi, universe!');
+				}, 5000);
+
+			});
+
+			// Will warn "Unable to say hi." in the console.
+			sayHello.then(function (msg) {
+				console.log(msg);
+			}).catch(function (err) {
+				console.warn(err);
+			});
+		</script>
+	</body>
+</html>
