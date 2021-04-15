@@ -6,19 +6,11 @@
 		<title>Injecting a Script</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<!-- Styles -->
 		<style type="text/css">
 			body {
+				margin: 0 auto;
 				max-width: 40em;
 				width: 88%;
-				margin-left: auto;
-				margin-right: auto;
-			}
-
-			div {
-				background-color: #f7f7f7;
-				margin: 0 0 1em;
-				padding: 0.5em 1em;
 			}
 		</style>
 	</head>
@@ -29,16 +21,18 @@
 
 
 		<script>
-
 			// Add "Hello, world!"
-			var div = document.querySelector('#app');
+			let div = document.querySelector('#app');
 			div.innerHTML = '<h1>Hello, world!</h1>';
 
-			// This won't execute
-			div.innerHTML += '<script>alert("XSS Attack");<\/script>';
+			// This won't run
+			div.innerHTML += `<script>alert("XSS Attack");<\/script>`;
 
 			// This WILL run
-			div.innerHTML += '<img src=x onerror="alert(\'Another XSS Attack\')">';
+			div.innerHTML += `<p><img src=x onerror="alert('One more XSS Attack')"></p>`;
+
+			// Links are also an attack vector
+			div.innerHTML += `<p><a href="javascript:alert('Another XSS Attack')">Click Me</a></p>`;
 		</script>
 	</body>
 </html>

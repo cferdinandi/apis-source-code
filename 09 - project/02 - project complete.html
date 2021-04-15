@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Project Complete</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			body {
+				margin: 0 auto;
+				max-width: 40em;
+				width: 88%;
+			}
+
+			.skwak {
+				border-bottom: 1px solid #e5e5e5;
+				padding: 1.5em 0;
+			}
+
+			.skwak-date {
+				color: #808080;
+				text-decoration: none;
+			}
+
+			.skwak-date:active,
+			.skwak-date:hover {
+				color: #0088cc;
+				text-decoration: underline;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app">
+			<p>Loading the latest skwaks...</p>
+		</div>
+
+
+		<script>
+			// Get the #app element
+			let app = document.querySelector('#app');
+
+			/**
+			 * Sanitize and encode all HTML in a user-submitted string
+			 * https://portswigger.net/web-security/cross-site-scripting/preventing
+			 * @param  {String} str  The user-submitted string
+			 * @return {String} str  The sanitized string
+			 */
+			function sanitizeHTML (str) {
+				return str.replace(/javascript:/gi, '').replace(/[^\w-_. ]/gi, function (c) {
+					return `&#${c.charCodeAt(0)};`;
+				});
+			}
+
+			/**
+			 * Update the DOM when the API is down or no skwaks exist
+			 */
+			function renderNoSwaks () {
+				app.innerHTML = '<p>Sorry matey! No skwaks at this time. Arr...</p>';
+			}
+
+			/**
+			 * Render Skwak data in the DOM
+			 * @param  {Object} data The API data
+			 */
+			function renderSkwaks (data) {
+
+				// If there's no skwaks to render, display a message
+				if (!data.skwaks.length) {
+					renderNoSwaks();
+					return;
+				}
+
+				// Otherwise, update the DOM
+				app.innerHTML =
+					`<h1>${sanitizeHTML(data.username)}'s skwaks</h1>
+					<div class="skwaks">
+						${data.skwaks.map(function (skwak) {
+							return `
+								<article class="skwak">
+									<a class="skwak-date" href="${sanitizeHTML(skwak.link)}">${sanitizeHTML(skwak.date)}</a>
+									<div class="skwak-content">${sanitizeHTML(skwak.content)}</div>
+								</article>`;
+						}).join('')}
+					</div>
+					<p><em>Powered by ${sanitizeHTML(data.service)}</em></p>`;
+
+			}
+
+			// Get the API data
+			fetch('https://vanillajsguides.com/api/skwak.json').then(function (response) {
+				if (response.ok) {
+					return response.json();
+				}
+				throw response;
+			}).then(function (data) {
+
+				// Render the data into the UI
+				renderSkwaks(data);
+
+			}).catch(function (error) {
+
+				// If there's an error, log it
+				console.warn(error);
+
+				// Then display a message in the UI
+				renderNoSwaks();
+
+			});
+		</script>
+	</body>
+</html>

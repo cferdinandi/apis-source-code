@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Text instead of HTML</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			body {
+				margin: 0 auto;
+				max-width: 40em;
+				width: 88%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+
+		<script>
+			/**
+			 * Adding a simple string
+			 */
+
+			let div = document.querySelector('#app');
+
+			// Renders a string with encoded characters
+			div.textContent = `<img src=x onerror="alert('XSS Attack')">`;
+
+
+
+			/**
+			 * Adding HTML using this technique
+			 */
+
+			// Create your element
+			let content = document.createElement('h1');
+
+			// Add your content
+			content.textContent = `<img src=x onerror="alert('XSS Attack')">`;
+
+			// Get the node to inject your content into
+			let app = document.querySelector('#app');
+
+			// Insert the content into the app
+			app.append(content);
+		</script>
+	</body>
+</html>

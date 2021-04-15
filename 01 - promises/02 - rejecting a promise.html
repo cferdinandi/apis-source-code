@@ -5,25 +5,14 @@
 		<meta charset="utf-8">
 		<title>Rejecting a Promise</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<!-- Styles -->
-		<style type="text/css">
-			body {
-				max-width: 40em;
-				width: 88%;
-				margin-left: auto;
-				margin-right: auto;
-			}
-		</style>
 	</head>
 
 	<body>
 
 
-
 		<script>
 			// Create a Promise object
-			var sayHello = new Promise(function (resolve, reject) {
+			let sayHello = new Promise(function (resolve, reject) {
 
 				reject('Unable to say hi.');
 
@@ -35,11 +24,11 @@
 
 			});
 
-			// Will warn "Unable to say hi." in the console.
+			// Handle the promise once it resolves or rejects
 			sayHello.then(function (msg) {
 				console.log(msg);
-			}).catch(function (err) {
-				console.warn(err);
+			}).catch(function (error) {
+				console.warn(error);
 			});
 		</script>
 	</body>

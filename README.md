@@ -1,2 +1,2 @@
-# The APIs & JavaScript Pocket Guide Source Code
-All of the source code for the [APIs & JavaScript Pocket Guide](https://vanillajsguides.com).
+# The APIs & Asynchronous JS Pocket Guide Source Code
+All of the source code for the [APIs & Asynchronous JS Pocket Guide](https://vanillajsguides.com).

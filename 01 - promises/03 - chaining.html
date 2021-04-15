@@ -5,29 +5,18 @@
 		<meta charset="utf-8">
 		<title>Promises and Chaining</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<!-- Styles -->
-		<style type="text/css">
-			body {
-				max-width: 40em;
-				width: 88%;
-				margin-left: auto;
-				margin-right: auto;
-			}
-		</style>
 	</head>
 
 	<body>
 
 
-
 		<script>
 			// Create a Promise object
-			var count = new Promise(function (resolve, reject) {
+			let count = new Promise(function (resolve, reject) {
 				resolve(1);
 			});
 
-			// logs 1, then 2, then 3, to the console
+			// Chain Promise.then() methods
 			count.then(function (num) {
 				console.log(num);
 				return num + 1;

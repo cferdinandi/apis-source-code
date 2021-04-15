@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Encoded String</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			body {
+				margin: 0 auto;
+				max-width: 40em;
+				width: 88%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="app"></div>
+
+
+		<script>
+			/**
+			 * Sanitize and encode all HTML in a user-submitted string
+			 * https://portswigger.net/web-security/cross-site-scripting/preventing
+			 * @param  {String} str  The user-submitted string
+			 * @return {String} str  The sanitized string
+			 */
+			function sanitizeHTML (str) {
+				return str.replace(/javascript:/gi, '').replace(/[^\w-_. ]/gi, function (c) {
+					return `&#${c.charCodeAt(0)};`;
+				});
+			}
+
+			// Variables
+			let div = document.querySelector('#app');
+			let thirdPartyString = `<img src=x onerror="alert('XSS Attack')">`;
+			let thirdPartyURL = `javascript:alert('Another XSS Attack')`;
+
+			// Renders the third party content as an encoded string
+			div.innerHTML =
+				`<p>${sanitizeHTML(thirdPartyString)}</p>
+				<p><a href="${sanitizeHTML(thirdPartyURL)}">View My Profile</a></p>`;
+		</script>
+	</body>
+</html>

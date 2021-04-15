@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Promise.finally()</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+
+
+		<script>
+			// Create a Promise that has a 50/50 chance of resolving or rejecting
+			new Promise(function (resolve, reject) {
+				if (Math.random() < 0.5) {
+					reject(`We'll never know...`);
+				}
+				resolve(42);
+			}).then(function (answer) {
+				console.log(answer);
+			}).catch(function (error) {
+				console.warn(error);
+			}).finally(function () {
+				console.log('I run no matter what!');
+			});
+		</script>
+	</body>
+</html>

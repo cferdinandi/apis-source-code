@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Promise.all()</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+
+
+		<script>
+			// Wait for multiple APIs to resolve
+			/*Promise.all([
+				fetch('https://jsonplaceholder.typicode.com/posts'),
+				fetch('https://jsonplaceholder.typicode.com/users')
+			]).then(function (responses) {
+				console.log(responses);
+			});*/
+
+
+			// Get the data from the responses
+			Promise.all([
+				fetch('https://jsonplaceholder.typicode.com/posts'),
+				fetch('https://jsonplaceholder.typicode.com/users')
+			]).then(function (responses) {
+				// Get a JSON object from each of the responses
+				return Promise.all(responses.map(function (response) {
+					return response.json();
+				}));
+			}).then(function (data) {
+				// You would do something with both sets of data here
+				console.log(data);
+			}).catch(function (error) {
+				// if there's an error, log it
+				console.log(error);
+			});
+		</script>
+	</body>
+</html>

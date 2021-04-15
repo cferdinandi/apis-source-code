@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>async and Promises</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+
+
+		<script>
+			// Create an async function
+			async function getTheAnswer () {
+				return 42;
+			}
+
+			// Assign the return to a variable
+			let answer = getTheAnswer();
+			console.log(answer);
+
+			// Use Promise.then() to get the actual value
+			answer.then(function (data) {
+				console.log(data);
+			});
+		</script>
+	</body>
+</html>

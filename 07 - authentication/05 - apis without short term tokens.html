@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>How to handle APIs without short term tokens</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+
+
+		<script>
+			// In your JavaScript, call the middleman API
+			// You don't provide any API credentials
+			fetch('https://my-middleman-api.com').then(function (response) {
+				if (response.ok) {
+					return response.json();
+				}
+				throw response;
+			}).then(function (data) {
+				console.log(data);
+			}).catch(function (error) {
+				console.warn(error);
+			});
+
+
+
+			// On a server, make the real API call with your credentials, then return it
+			let apiKey = '1234';
+			return fetch(`https://api.nytimes.com/svc/topstories/v2/technology.json?api-key=my_api_key_${apiKey}`);
+		</script>
+	</body>
+</html>

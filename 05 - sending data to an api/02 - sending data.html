@@ -3,18 +3,8 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>HTTP Method</title>
+		<title>Sending Data</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<!-- Styles -->
-		<style type="text/css">
-			body {
-				max-width: 40em;
-				width: 88%;
-				margin-left: auto;
-				margin-right: auto;
-			}
-		</style>
 	</head>
 
 	<body>
@@ -22,6 +12,22 @@
 
 
 		<script>
+			/**
+
+				Template:
+
+				fetch('https://jsonplaceholder.typicode.com/posts', {
+					method: 'POST',
+					body: '', // The data
+					headers: {
+						'Content-type': '' // The type of data you're sending
+					}
+				});
+
+			 */
+
+
+
 			// JSON Object
 			fetch('https://jsonplaceholder.typicode.com/posts', {
 				method: 'POST',
@@ -37,19 +43,19 @@
 				if (response.ok) {
 					return response.json();
 				}
-				return Promise.reject(response);
+				throw response;
 			}).then(function (data) {
 				console.log(data);
 			}).catch(function (error) {
-				console.warn('Something went wrong.', error);
+				console.warn(error);
 			});
 
 
 
-			// Query String
+			// Query String Parameters
 			fetch('https://jsonplaceholder.typicode.com/posts', {
 				method: 'POST',
-				body: 'title=' + encodeURIComponent('New Pirate Captain') + '&body=' + encodeURIComponent('Arrrrrr-ent you excited?') + '&userID=3',
+				body: `title=${encodeURIComponent('New Pirate Captain')}&body=${encodeURIComponent('Arrrrrr-ent you excited?')}&userID=3`,
 				headers: {
 					'Content-type': 'application/x-www-form-urlencoded'
 				}
@@ -57,11 +63,11 @@
 				if (response.ok) {
 					return response.json();
 				}
-				return Promise.reject(response);
+				throw response;
 			}).then(function (data) {
 				console.log(data);
 			}).catch(function (error) {
-				console.warn('Something went wrong.', error);
+				console.warn(error);
 			});
 		</script>
 	</body>

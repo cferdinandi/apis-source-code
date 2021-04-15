@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Adding, updating, and removing items from a FormData object</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			body {
+				margin: 0 auto;
+				max-width: 30em;
+				width: 88%;
+			}
+
+			label,
+			input,
+			textarea {
+				display: block;
+				width: 100%;
+			}
+
+			input,
+			textarea {
+				margin-bottom: 1em;
+			}
+
+			textarea {
+				min-height: 8em;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<h1>The FormData Object</h1>
+
+		<form id="post">
+
+			<label for="title">Title</label>
+			<input type="text" name="title" id="title" value="Go to the beach">
+
+			<label for="body">Body</label>
+			<textarea id="body" name="body">Soak up the sun and swim in the ocean.</textarea>
+
+			<input type="hidden" name="userId" value="1">
+
+			<button>Submit</button>
+
+		</form>
+
+
+		<script>
+			// Get the form
+			let form = document.querySelector('#post');
+
+			// Get all field data from the form
+			let data = new FormData(form);
+
+			// Update the userId field with a value of "3"
+			data.set('userId', '3');
+
+			// Create a new key, "date", with a value of "July 4"
+			data.set('date', 'July 4');
+
+			// Add a second "body" key to the data FormData object
+			data.append('body', 'Eat ice cream');
+
+			// Delete items with the "body" key
+			data.delete('body');
+		</script>
+	</body>
+</html>
