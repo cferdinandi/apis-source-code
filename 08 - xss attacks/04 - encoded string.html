@@ -27,7 +27,7 @@
 			 * @param  {String} str  The user-submitted string
 			 * @return {String} str  The sanitized string
 			 */
-			function sanitizeHTML (str) {
+			function encodeHTML (str) {
 				return str.replace(/javascript:/gi, '').replace(/[^\w-_. ]/gi, function (c) {
 					return `&#${c.charCodeAt(0)};`;
 				});
@@ -40,8 +40,8 @@
 
 			// Renders the third party content as an encoded string
 			div.innerHTML =
-				`<p>${sanitizeHTML(thirdPartyString)}</p>
-				<p><a href="${sanitizeHTML(thirdPartyURL)}">View My Profile</a></p>`;
+				`<p>${encodeHTML(thirdPartyString)}</p>
+				<p><a href="${encodeHTML(thirdPartyURL)}">View My Profile</a></p>`;
 		</script>
 	</body>
 </html>

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Project Complete</title>
+		<title>Sanitized String</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<style type="text/css">
@@ -12,39 +12,17 @@
 				max-width: 40em;
 				width: 88%;
 			}
-
-			.skwak {
-				border-bottom: 1px solid #e5e5e5;
-				padding: 1.5em 0;
-			}
-
-			.skwak-date {
-				color: #808080;
-				text-decoration: none;
-			}
-
-			.skwak-date:active,
-			.skwak-date:hover {
-				color: #0088cc;
-				text-decoration: underline;
-			}
 		</style>
 	</head>
 
 	<body>
 
-		<div id="app">
-			<p>Loading the latest skwaks...</p>
-		</div>
+		<div id="app"></div>
 
 
 		<script>
-			// Get the #app element
-			let app = document.querySelector('#app');
-
 			/**
 			 * Sanitize an HTML string
-			 * @copyright [description]
 			 * @param  {String}          str   The HTML string to sanitize
 			 * @param  {Boolean}         nodes If true, returns HTML nodes instead of a string
 			 * @return {String|NodeList}       The sanitized string or nodes
@@ -130,63 +108,19 @@
 
 			}
 
-			/**
-			 * Update the DOM when the API is down or no skwaks exist
-			 */
-			function renderNoSwaks () {
-				app.innerHTML = '<p>Sorry matey! No skwaks at this time. Arr...</p>';
-			}
+			// Variables
+			let div = document.querySelector('#app');
+			let dangerousString = `
+				<p><img src=x onerror="alert('XSS Attack')"></p>
+				<p><a href="javascript:alert('Another XSS Attack')">View My Profile</a></p>`;
 
-			/**
-			 * Render Skwak data in the DOM
-			 * @param  {Object} data The API data
-			 */
-			function renderSkwaks (data) {
+			// returns a sanitized string
+			let cleaned = cleanHTML(dangerousString);
+			// app.innerHTML = cleaned;
 
-				// If there's no skwaks to render, display a message
-				if (!data.skwaks.length) {
-					renderNoSwaks();
-					return;
-				}
-
-				// Otherwise, update the DOM
-				app.innerHTML =
-					cleanHTML(
-						`<h1>${data.username}'s skwaks</h1>
-						<div class="skwaks">
-							${data.skwaks.map(function (skwak) {
-								return `
-									<article class="skwak">
-										<a class="skwak-date" href="${skwak.link}">${skwak.date}</a>
-										<div class="skwak-content">${skwak.content}</div>
-									</article>`;
-							}).join('')}
-						</div>
-						<p><em>Powered by ${data.service}</em></p>`
-					);
-
-			}
-
-			// Get the API data
-			fetch('https://vanillajsguides.com/api/skwak.json').then(function (response) {
-				if (response.ok) {
-					return response.json();
-				}
-				throw response;
-			}).then(function (data) {
-
-				// Render the data into the UI
-				renderSkwaks(data);
-
-			}).catch(function (error) {
-
-				// If there's an error, log it
-				console.warn(error);
-
-				// Then display a message in the UI
-				renderNoSwaks();
-
-			});
+			// returns sanitized nodes
+			let cleanedNodes = cleanHTML(dangerousString, true);
+			app.append(...cleanedNodes);
 		</script>
 	</body>
 </html>
